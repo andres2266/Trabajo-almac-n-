@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Modelo/Store.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Modelo/Store.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>    import { Produc } from "./Produc.js";
+
+ export class Store{
+
+    /**
+    * Lista de productos de la tienda.
+    * @type {Array}
+    */
+
+     #producs = []
+
+
+    /**
+     * Crea una nueva instancia de Store.
+    *
+    * @param {number} id - Identificador único de la tienda.
+    */
+
+     constructor(id){
+        this.id = id;
+     }
+
+     /**
+      * 
+      * Buscar un producto existente
+      * 
+      * @param {number} idDeProducto El ID del producto a buscar. 
+      * @returns{Produc|undefined} El producto encontrado, o `undefined` si no existe
+      */
+
+     findProduct(idDeProducto){
+      let posision =  this.#producs.findIndex(n=>n.getId()==idDeProducto);
+      return this.#producs[posision];
+     }
+
+
+     /**
+      * 
+      * Añade un producto
+      * 
+      * @param {Produc} El producto que quieres insertar
+      * @returns {Produc|false} El producto insertado o 'false' si no se inserto
+      */
+
+     addProduct(Produc){
+        if(!this.#producs.some(n=>n.getId()==Produc.getId())){
+            this.#producs.push(Produc);
+            return Produc;
+        }
+            return false;
+     }
+
+     /**
+      * Elimina un producto
+      * 
+      * @param {number} Id del elemeto que quieres eleminar 
+      * @returns {false} Devuelve false si no se elimino el producto
+      */
+
+     delProduct(id){
+        if(!this.#producs.some(n=>n.getId() == id)&amp;&amp;this.#producs[id].getUnits()>0){
+              let pocicionEliminada = this.#producs.findIndex(n=>n.getId()==id)
+              this.#producs.splice(pocicionEliminada,pocicionEliminada);
+              return
+        }
+        return false;
+     }
+
+     /**
+ * Modifica las unidades de un producto existente.
+ *
+ * @param {number} id - El identificador único del producto.
+ * @param {number} unidades - La nueva cantidad de unidades a asignar.
+ */
+
+     changeProductUnits(id,unidades){
+        let pocicionModificada = this.#producs.findIndex(n=>n.getId()==id);
+        
+        this.#producs[pocicionModificada].changeUnits(unidades); 
+    };
+
+
+    /**
+ * Modifica las propiedades de un producto existente.
+ *
+ * @param {string} nombre - Nuevo nombre del producto.
+ * @param {number} precio - Nuevo precio del producto.
+ * @param {number} unidades - Nueva cantidad de unidades.
+ * @param {number} id - Identificador único del producto a modificar.
+ */
+
+    modifyProduct(nombre,precio,unidades,id){
+        const posision = this.#producs.findIndex(n=>n.getId() === id);
+        this.#producs[posision].setName(nombre);
+        this.#producs[posision].setPrice(precio);
+        this.#producs[posision].setUnits(unidades);
+    }
+
+/**
+ * Calcula la suma de los precios unitarios de todos los productos.
+ *
+ * @returns {number} La suma de los precios de todos los productos.
+ */
+
+    totalImport(){
+        let sumaDePrecios = this.#producs.reduce((acomulador,valorActual) => acomulador + valorActual.getPrice(),0);
+        return sumaDePrecios;
+    }
+
+
+
+    underStock(unidades){
+        let menorUnidades = this.#producs.map(n=>n.getUnits()&lt;unidades);
+        return menorUnidades;
+    }
+
+/**
+ * Ordena los productos por unidades en orden descendente.
+ *
+ * @returns {Produc[]} Lista de productos ordenados de mayor a menor según sus unidades.
+ */
+    
+    orderByUnits(){
+       return this.#producs.sort((a,b)=>b.getUnits()-a.getUnits());
+    }
+
+/**
+ * Ordena los productos por nombre en orden alfabético ascendente.
+ *
+ * @returns {Producto[]} Lista de productos ordenados por nombre.
+ */
+
+    orderByName(){
+        return this.#producs.sort((a,b)=>a.getName().localeCompare(b.getName()));
+    }
+
+/**
+ * Devuelve el array interno de productos.
+ *
+ * @returns {Producto[]} Lista completa de productos almacenados en la tienda.
+ */
+
+    getArray(){
+        return this .#producs;
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Controlador_Controlador.html">Controlador</a></li><li><a href="Produc_Produc.html">Produc</a></li><li><a href="Store_Store.html">Store</a></li></ul><h3>Global</h3><ul><li><a href="global.html#borrarDeApi">borrarDeApi</a></li><li><a href="global.html#buscaFila">buscaFila</a></li><li><a href="global.html#cargarProductos">cargarProductos</a></li><li><a href="global.html#crearProductoApi">crearProductoApi</a></li><li><a href="global.html#datosProducto">datosProducto</a></li><li><a href="global.html#modificarApi">modificarApi</a></li><li><a href="global.html#modificarFormulario">modificarFormulario</a></li><li><a href="global.html#modificarStock">modificarStock</a></li><li><a href="global.html#modificarValores">modificarValores</a></li><li><a href="global.html#quitaIcono">quitaIcono</a></li><li><a href="global.html#renderDelProduct">renderDelProduct</a></li><li><a href="global.html#request">request</a></li><li><a href="global.html#restablecerValores">restablecerValores</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Dec 17 2025 18:44:00 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
